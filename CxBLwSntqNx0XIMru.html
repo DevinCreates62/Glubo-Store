@@ -1,0 +1,439 @@
+<html><head><base href="." name="theme" content="light"><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>GLUBO Store - Official Gaming Merchandise</title><style>
+:root {
+  --primary: #4a148c;
+  --accent: #00b0ff;
+  --text: #333;
+  --light: #f5f5f5;
+  --neon-glow: 0 0 10px rgba(0, 176, 255, 0.5);
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0;
+  padding: 0;
+  color: var(--text);
+  line-height: 1.6;
+  background: #fafafa;
+}
+
+.header {
+  background: var(--primary);
+  padding: 1rem;
+  color: white;
+  text-align: center;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  width: 150px;
+  height: auto;
+  transition: transform 0.3s ease;
+}
+
+.logo:hover {
+  transform: scale(1.05);
+}
+
+.cart-icon {
+  cursor: pointer;
+  padding: 10px;
+  position: relative;
+}
+
+.cart-count {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background: var(--accent);
+  color: white;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+}
+
+.store-container {
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+}
+
+.filters {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+}
+
+.filter-btn {
+  padding: 0.5rem 1rem;
+  background: white;
+  border: 2px solid var(--primary);
+  color: var(--primary);
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.filter-btn:hover, .filter-btn.active {
+  background: var(--primary);
+  color: white;
+}
+
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 2rem;
+}
+
+.product-card {
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  transition: transform 0.3s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.product-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 15px rgba(0,0,0,0.2);
+}
+
+.product-image {
+  width: 100%;
+  height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f0f0f0;
+  overflow: hidden;
+}
+
+.product-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.product-info {
+  padding: 1rem;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.product-title {
+  font-size: 1.2rem;
+  margin: 0 0 0.5rem 0;
+  color: var(--primary);
+}
+
+.product-price {
+  font-size: 1.5rem;
+  color: var(--accent);
+  margin: 0.5rem 0;
+}
+
+.add-to-cart {
+  background: var(--primary);
+  color: white;
+  border: none;
+  padding: 0.8rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  margin-top: auto;
+}
+
+.add-to-cart:hover {
+  background: var(--accent);
+}
+
+.cart-modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 300px;
+  height: 100vh;
+  background: white;
+  box-shadow: -2px 0 5px rgba(0,0,0,0.2);
+  padding: 1rem;
+  z-index: 1001;
+}
+
+.cart-modal.active {
+  display: block;
+  animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+  from { transform: translateX(100%); }
+  to { transform: translateX(0); }
+}
+
+.cart-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.close-cart {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: var(--text);
+}
+
+.cart-items {
+  max-height: calc(100vh - 200px);
+  overflow-y: auto;
+}
+
+.cart-item {
+  display: flex;
+  gap: 1rem;
+  padding: 1rem 0;
+  border-bottom: 1px solid #eee;
+}
+
+.cart-total {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 1rem;
+  background: white;
+  border-top: 1px solid #eee;
+}
+
+.checkout-btn {
+  width: 100%;
+  padding: 1rem;
+  background: var(--accent);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.checkout-btn:hover {
+  background: var(--primary);
+}
+</style></head><body>
+
+<header class="header">
+  <img src="Glubo_Logo.webp" alt="GLUBO Logo" class="logo">
+  <div class="cart-icon">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="white">
+      <path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/>
+    </svg>
+    <span class="cart-count">0</span>
+  </div>
+</header>
+
+<main class="store-container">
+  <div class="filters">
+    <button class="filter-btn active">All</button>
+    <button class="filter-btn">Games</button>
+    <button class="filter-btn">Consoles</button>
+    <button class="filter-btn">Accessories</button>
+    <button class="filter-btn">PCs</button>
+  </div>
+
+  <div class="products-grid">
+    <div class="product-card">
+      <div class="product-image">
+        <img src="2si2z7n7kc2e1.jpeg" alt="GLUBO Nitro GX Console">
+      </div>
+      <div class="product-info">
+        <h3 class="product-title">GLUBO Nitro GX Console</h3>
+        <p>Experience gaming like never before with our flagship console</p>
+        <span class="product-price">$499.99</span>
+        <button class="add-to-cart">Add to Cart</button>
+      </div>
+    </div>
+
+    <div class="product-card">
+      <div class="product-image">
+        <img src="rp4wuoj6pw1e1.jpeg" alt="GLUBO Zed-X1 Handheld">
+      </div>
+      <div class="product-info">
+        <h3 class="product-title">GLUBO Zed-X1 Handheld</h3>
+        <p>Premium portable gaming with desktop-class performance</p>
+        <span class="product-price">$349.99</span>
+        <button class="add-to-cart">Add to Cart</button>
+      </div>
+    </div>
+
+    <div class="product-card">
+      <div class="product-image">
+        <img src="Blario_Sisters_Nurse_Minigame.webp" alt="Blario Sisters Game">
+      </div>
+      <div class="product-info">
+        <h3 class="product-title">Blario Sisters - Nurse Adventure</h3>
+        <p>The latest installment in the beloved series</p>
+        <span class="product-price">$59.99</span>
+        <button class="add-to-cart">Add to Cart</button>
+      </div>
+    </div>
+
+    <div class="product-card">
+      <div class="product-image">
+        <img src="NewGlubo.webp" alt="GLUBO Controller">
+      </div>
+      <div class="product-info">
+        <h3 class="product-title">GLUBO Pro Controller</h3>
+        <p>Premium gaming controller with advanced haptics</p>
+        <span class="product-price">$69.99</span>
+        <button class="add-to-cart">Add to Cart</button>
+      </div>
+    </div>
+
+    <div class="product-card">
+      <div class="product-image">
+        <img src="Glob_512.webp" alt="Glob 512 Gaming PC">
+      </div>
+      <div class="product-info">
+        <h3 class="product-title">Glob 512 Gaming PC</h3>
+        <p>Ultimate gaming performance with next-gen graphics and cooling</p>
+        <span class="product-price">$2,499.99</span>
+        <button class="add-to-cart">Add to Cart</button>
+      </div>
+    </div>
+
+    <div class="product-card">
+      <div class="product-image">
+        <img src="Glob_Vixen.webp" alt="Glob Vixen Gaming PC">
+      </div>
+      <div class="product-info">
+        <h3 class="product-title">Glob Vixen Gaming PC</h3>
+        <p>High-performance gaming rig with advanced RGB cooling system</p>
+        <span class="product-price">$1,999.99</span>
+        <button class="add-to-cart">Add to Cart</button>
+      </div>
+    </div>
+
+    <div class="product-card">
+      <div class="product-image">
+        <img src="Globmini.webp" alt="Glob Mini Gaming Laptop">
+      </div>
+      <div class="product-info">
+        <h3 class="product-title">Glob Mini Gaming Laptop</h3>
+        <p>Ultra-portable gaming laptop with powerful performance</p>
+        <span class="product-price">$1,299.99</span>
+        <button class="add-to-cart">Add to Cart</button>
+      </div>
+    </div>
+  </div>
+</main>
+
+<div class="cart-modal">
+  <div class="cart-header">
+    <h2>Your Cart</h2>
+    <button class="close-cart">×</button>
+  </div>
+  <div class="cart-items">
+    <!-- Cart items will be dynamically added here -->
+  </div>
+  <div class="cart-total">
+    <p>Total: $<span class="total-amount">0.00</span></p>
+    <button class="checkout-btn">Proceed to Checkout</button>
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const cartIcon = document.querySelector('.cart-icon');
+  const cartModal = document.querySelector('.cart-modal');
+  const closeCart = document.querySelector('.close-cart');
+  const addToCartButtons = document.querySelectorAll('.add-to-cart');
+  const cartItemsContainer = document.querySelector('.cart-items');
+  const cartCount = document.querySelector('.cart-count');
+  const totalAmount = document.querySelector('.total-amount');
+  const filterButtons = document.querySelectorAll('.filter-btn');
+
+  let cart = [];
+
+  cartIcon.addEventListener('click', () => {
+    cartModal.classList.add('active');
+  });
+
+  closeCart.addEventListener('click', () => {
+    cartModal.classList.remove('active');
+  });
+
+  addToCartButtons.forEach(button => {
+    button.addEventListener('click', (e) => {
+      const card = e.target.closest('.product-card');
+      const title = card.querySelector('.product-title').textContent;
+      const price = parseFloat(card.querySelector('.product-price').textContent.replace('$', ''));
+      
+      addToCart(title, price);
+      updateCartDisplay();
+    });
+  });
+
+  filterButtons.forEach(button => {
+    button.addEventListener('click', (e) => {
+      filterButtons.forEach(btn => btn.classList.remove('active'));
+      e.target.classList.add('active');
+      // Implement filtering logic here
+    });
+  });
+
+  function addToCart(title, price) {
+    cart.push({ title, price });
+    updateCartCount();
+    updateTotal();
+  }
+
+  function updateCartCount() {
+    cartCount.textContent = cart.length;
+  }
+
+  function updateTotal() {
+    const total = cart.reduce((sum, item) => sum + item.price, 0);
+    totalAmount.textContent = total.toFixed(2);
+  }
+
+  function updateCartDisplay() {
+    cartItemsContainer.innerHTML = '';
+    cart.forEach((item, index) => {
+      const cartItem = document.createElement('div');
+      cartItem.classList.add('cart-item');
+      cartItem.innerHTML = `
+        <div>
+          <h4>${item.title}</h4>
+          <p>$${item.price.toFixed(2)}</p>
+        </div>
+        <button onclick="removeFromCart(${index})">Remove</button>
+      `;
+      cartItemsContainer.appendChild(cartItem);
+    });
+  }
+
+  window.removeFromCart = function(index) {
+    cart.splice(index, 1);
+    updateCartDisplay();
+    updateCartCount();
+    updateTotal();
+  }
+});
+</script>
+
+</body></html>
